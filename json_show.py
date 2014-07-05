@@ -10,11 +10,26 @@ def get_key(ms):
     
     if type(ms) == str:
         dot_pos = ms.find('.')
+        pipe_pos = ms.find('|')
+        
+        if pipe_pos != -1:
+            parts = get_piped_parts(ms)
         
         if dot_pos != -1:
             return (ms[:dot_pos], get_key(ms[dot_pos+1:]))
         
         return (ms, None)
+
+def get_piped_parts(ms):
+    if ms == '':
+        return []
+    
+    pipe_pos = ms.find('|')
+    
+    if pipe_pos == -1:
+        return [ms]
+    
+    return [ms[:pipe_pos]] + get_piped_parts(ms[pipe_pos+1:])
 
 def get_args(argument_list):
     parser = argparse.ArgumentParser(description='Show and manipulate json strings.')
