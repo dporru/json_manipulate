@@ -29,9 +29,3 @@ if __name__ == '__main__':
     json_object = manipulate(json_object, args.manipulate_string)
     
     print json.dumps(json_object, indent=4, separators=(',', ': '))
-
-# ''
-# 'response.result.(persons|recepies)'
-# 'response.result.persons[firstname|last_name]'
-# 'response.result.persons[firstname|last_name|(address.street|number)]'
-# 'response.result.persons[firstname]'
