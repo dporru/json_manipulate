@@ -12,11 +12,21 @@ def get_key(ms):
         dot_pos = ms.find('.')
         pipe_pos = ms.find('|')
         parenthesis_pos = ms.find('(')
+        square_bracket_pos = ms.find('[')
     
         # remove starting and trailing parenthesis
         if parenthesis_pos == 0:
             ms = ms[1:-1]
             parenthesis_pos = -1
+            
+        # remove starting and trailing square_brackets
+        if square_bracket_pos == 0:
+            ms = ms[1:-1]
+            square_bracket_pos = -1
+        
+        # return (key, rest) tuple
+        if square_bracket_pos != -1:
+             return (ms[:square_bracket_pos], get_key(ms[square_bracket_pos+1:-1]))
         
         # return list of (key, rest) tuples
         if pipe_pos != -1 and (parenthesis_pos == -1 or pipe_pos < parenthesis_pos):
