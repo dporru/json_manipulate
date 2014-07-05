@@ -31,7 +31,7 @@ class TestJsonShow(unittest.TestCase):
         
         self.assertEqual(args.manipulate_string, '')
 
-    def test_get_args_manipulate_empty_string(self):
+    def test_get_args_manipulate_string(self):
         argument_list = ['json_show.py', '-m', 'result']
         
         args = json_show.get_args(argument_list)
