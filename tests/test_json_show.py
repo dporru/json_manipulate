@@ -7,8 +7,23 @@ import unittest
 class TestJsonShow(unittest.TestCase):
 
     def setUp(self):
-        pass
-
+        self.json_object = {
+            "response" : {
+                "result" : {
+                    "rows" : [
+                        {
+                            "row_nr" : 1,
+                            "row_data" : "row number 1"
+                        },
+                        {
+                            "row_nr" : 2,
+                            "row_data" : "row number 2"
+                        }
+                    ]
+                }
+            }
+        }
+    
     def test_get_args_no_arguments(self):
         argument_list = ['json_show.py']
         
@@ -23,6 +38,13 @@ class TestJsonShow(unittest.TestCase):
         
         self.assertEqual(args.manipulate_string, 'result')
     
+    def test_manipulate_empty_string(self):
+        manipulate_string = ''
+        
+        result = json_show.manipulate(self.json_object, manipulate_string)
+        
+        self.assertEqual(result, self.json_object)
+
     def test_get_key_empty_string(self):
         manipulate_string = ''
         

@@ -4,6 +4,9 @@ import json, sys, argparse
 def manipulate(json_object, manipulate_string):
    (key, rest) = get_key(manipulate_string)
    
+   if key == None:
+       return json_object
+   
 def get_key(ms):
     if ms == '':
         return (None, None)
