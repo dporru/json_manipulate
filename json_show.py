@@ -5,7 +5,7 @@ def manipulate(json_object, manipulate_string):
    (key, rest) = get_key(manipulate_string)
    
 def get_key(manipulate_string):
-    return None
+    return (None, None)
 
 def get_args(argument_list):
     parser = argparse.ArgumentParser(description='Show and manipulate json strings.')

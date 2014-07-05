@@ -28,7 +28,7 @@ class TestJsonShow(unittest.TestCase):
         
         result = json_show.get_key(manipulate_string)
         
-        self.assertEqual(result, None)
+        self.assertEqual(result, (None, None))
         
 if __name__ == '__main__':
     unittest.main()
