@@ -9,6 +9,11 @@ def get_key(ms):
         return (None, None)
     
     if type(ms) == str:
+        dot_pos = ms.find('.')
+        
+        if dot_pos != -1:
+            return (ms[:dot_pos], get_key(ms[dot_pos+1:]))
+        
         return (ms, None)
 
 def get_args(argument_list):
