@@ -48,6 +48,15 @@ class TestJsonShow(unittest.TestCase):
         
         self.assertRaises(json_show.KeyNotFound, json_show.manipulate, json_object, key, rest)
 
+    def test_manipulate_key_and_rest_key(self):
+        key = 'object1'
+        rest = ('subobject2', None)
+        json_object = {"object1" : {"subobject1" : "sub_value1", "subobject2": "sub_value2"}, "object2": "value2"}
+        
+        result = json_show.manipulate(json_object, key, rest)
+        
+        self.assertEqual(result, {"object1" : {"subobject2" : "sub_value2"}})
+        
     def test_get_key_empty_string(self):
         manipulate_string = ''
         

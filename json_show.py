@@ -4,7 +4,11 @@ import json, sys, argparse
 def manipulate(json_object, key, rest):   
     if type(key) == str:
         try:
-            return {key : json_object[key]}
+            if rest != None:
+                rest_object = manipulate(json_object[key], rest[0], rest[1])
+            else:
+                rest_object = json_object[key]
+            return {key : rest_object}
         except KeyError:
             raise KeyNotFound(key)
    
