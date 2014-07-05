@@ -11,9 +11,15 @@ def get_key(ms):
     if type(ms) == str:
         dot_pos = ms.find('.')
         pipe_pos = ms.find('|')
+        parenthesis_pos = ms.find('(')
+    
+        # remove starting and trailing parenthesis
+        if parenthesis_pos == 0:
+            ms = ms[1:-1]
+            parenthesis_pos = -1
         
         # return list of (key, rest) tuples
-        if pipe_pos != -1:
+        if pipe_pos != -1 and (parenthesis_pos == -1 or pipe_pos < parenthesis_pos):
             return (map(get_key, get_piped_parts(ms)), None)
         
         # return (key, rest) tuple
@@ -25,7 +31,7 @@ def get_key(ms):
 def get_piped_parts(ms):
     if ms == '':
         return []
-    
+        
     pipe_pos = ms.find('|')
     
     if pipe_pos == -1:
