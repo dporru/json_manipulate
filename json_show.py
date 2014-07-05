@@ -12,9 +12,11 @@ def get_key(ms):
         dot_pos = ms.find('.')
         pipe_pos = ms.find('|')
         
+        # return list of (key, rest) tuples
         if pipe_pos != -1:
-            parts = get_piped_parts(ms)
+            return (map(get_key, get_piped_parts(ms)), None)
         
+        # return (key, rest) tuple
         if dot_pos != -1:
             return (ms[:dot_pos], get_key(ms[dot_pos+1:]))
         

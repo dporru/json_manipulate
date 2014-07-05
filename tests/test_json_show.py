@@ -44,12 +44,12 @@ class TestJsonShow(unittest.TestCase):
         
         self.assertEqual(result, ('response', ('result', None)))
         
-    #def test_get_key_keys_separated_by_pipe(self):
-        #manipulate_string = 'persons|addresses|streets'
+    def test_get_key_keys_separated_by_pipe(self):
+        manipulate_string = 'persons|addresses|streets'
         
-        #result = json_show.get_key(manipulate_string)
+        result = json_show.get_key(manipulate_string)
         
-        #self.assertEqual(result, ([('persons', None), ('addresses', None), ('streets', None)], None))
+        self.assertEqual(result, ([('persons', None), ('addresses', None), ('streets', None)], None))
     
     def test_get_piped_parts_empty_string(self):
         manipulate_string = ''
