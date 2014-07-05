@@ -4,8 +4,12 @@ import json, sys, argparse
 def manipulate(json_object, manipulate_string):
    (key, rest) = get_key(manipulate_string)
    
-def get_key(manipulate_string):
-    return (None, None)
+def get_key(ms):
+    if ms == '':
+        return (None, None)
+    
+    if type(ms) == str:
+        return (ms, None)
 
 def get_args(argument_list):
     parser = argparse.ArgumentParser(description='Show and manipulate json strings.')

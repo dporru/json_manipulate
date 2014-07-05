@@ -30,5 +30,12 @@ class TestJsonShow(unittest.TestCase):
         
         self.assertEqual(result, (None, None))
         
+    def test_get_key_one_key(self):
+        manipulate_string = 'response'
+        
+        result = json_show.get_key(manipulate_string)
+        
+        self.assertEqual(result, ('response', None))
+        
 if __name__ == '__main__':
     unittest.main()
