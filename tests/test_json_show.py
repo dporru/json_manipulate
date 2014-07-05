@@ -44,6 +44,14 @@ class TestJsonShow(unittest.TestCase):
         result = json_show.manipulate(self.json_object, manipulate_string)
         
         self.assertEqual(result, self.json_object)
+        
+    def test_manipulate_key_string(self):
+        manipulate_string = 'object1'
+        json_object = {"object1" : "value1", "object2": "value2"}
+        
+        result = json_show.manipulate(json_object, manipulate_string)
+        
+        self.assertEqual(result, {"object1" : json_object['object1']})
 
     def test_get_key_empty_string(self):
         manipulate_string = ''
