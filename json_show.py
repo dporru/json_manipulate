@@ -11,7 +11,13 @@ def manipulate(json_object, key, rest):
             return {key : rest_object}
         except KeyError:
             raise KeyNotFound(key)
-   
+        
+    if type(key) == list:
+        return_object = {}
+        for sub_key in key:
+            return_object[sub_key[0]] = manipulate(json_object,sub_key[0], None)[sub_key[0]]
+        return return_object
+        
     if key == None:
        return json_object
    
