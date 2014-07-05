@@ -64,7 +64,14 @@ class TestJsonShow(unittest.TestCase):
         result = json_show.get_key(manipulate_string)
         
         self.assertEqual(result, ('result', ([('addresses', None), ('streets', None)], None)))
+    
+    def test_get_key_keys_separated_by_pipe_in_parenthesis_in_square_brackets(self):
+        manipulate_string = 'result[addresses|streets|person.(name|birth_date)]'
         
+        result = json_show.get_key(manipulate_string)
+        
+        self.assertEqual(result, ('result', ([('addresses', None), ('streets', None), (('person', ([('name', None),('birth_date', None)], None)))], None)))
+
     def test_get_piped_parts_empty_string(self):
         manipulate_string = ''
         
@@ -85,6 +92,13 @@ class TestJsonShow(unittest.TestCase):
         result = json_show.get_piped_parts(manipulate_string)
         
         self.assertEqual(result, ['persons', 'addresses', 'streets'])
+        
+    def test_get_piped_parts_keys_separated_in_parenthesis(self):
+        manipulate_string = 'person|address.(street|city)'
+        
+        result = json_show.get_piped_parts(manipulate_string)
+        
+        self.assertEqual(result, ['person', 'address.(street|city)'])
         
 if __name__ == '__main__':
     unittest.main()
