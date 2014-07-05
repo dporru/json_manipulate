@@ -1,9 +1,7 @@
 #!/usr/bin/python
 import json, sys, argparse
 
-def manipulate(json_object, manipulate_string):
-    (key, rest) = get_key(manipulate_string)
-   
+def manipulate(json_object, key, rest):   
     if type(key) == str:
         try:
             return {key : json_object[key]}
@@ -75,6 +73,8 @@ if __name__ == '__main__':
     
     args = get_args(sys.argv)
     
-    json_object = manipulate(json_object, args.manipulate_string)
+    (key, rest) = get_key(args.manipulate_string)
+    
+    json_object = manipulate(json_object, key, rest)
     
     print json.dumps(json_object, indent=4, separators=(',', ': '))

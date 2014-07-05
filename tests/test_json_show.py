@@ -23,27 +23,30 @@ class TestJsonShow(unittest.TestCase):
         
         self.assertEqual(args.manipulate_string, 'result')
     
-    def test_manipulate_empty_string(self):
-        manipulate_string = ''
+    def test_manipulate_no_key(self):
+        key = None
+        rest = None
         json_object = {"object1" : "value1", "object2": "value2"}
         
-        result = json_show.manipulate(json_object, manipulate_string)
+        result = json_show.manipulate(json_object, key, rest)
         
         self.assertEqual(result, json_object)
         
-    def test_manipulate_key_string(self):
-        manipulate_string = 'object1'
+    def test_manipulate_key(self):
+        key = 'object1'
+        rest = None
         json_object = {"object1" : "value1", "object2": "value2"}
         
-        result = json_show.manipulate(json_object, manipulate_string)
+        result = json_show.manipulate(json_object, key, rest)
         
         self.assertEqual(result, {"object1" : json_object['object1']})
         
-    def test_manipulate_non_existing_key_string(self):
-        manipulate_string = 'object3'
+    def test_manipulate_non_existing_key(self):
+        key = 'object3'
+        rest = None
         json_object = {"object1" : "value1", "object2": "value2"}
         
-        self.assertRaises(json_show.KeyNotFound, json_show.manipulate, json_object, manipulate_string)
+        self.assertRaises(json_show.KeyNotFound, json_show.manipulate, json_object, key, rest)
 
     def test_get_key_empty_string(self):
         manipulate_string = ''
