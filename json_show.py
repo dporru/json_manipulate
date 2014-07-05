@@ -13,10 +13,16 @@ def manipulate(json_object, key, rest):
             raise KeyNotFound(key)
         
     if type(key) == list:
-        return_object = {}
-        for sub_key in key:
-            return_object[sub_key[0]] = manipulate(json_object,sub_key[0], None)[sub_key[0]]
-        return return_object
+        if type(json_object) == list:
+            return_list = []
+            for item in json_object:
+                return_list.append(manipulate(item, key, rest))
+            return return_list
+        else:
+            return_object = {}
+            for sub_key in key:
+                return_object[sub_key[0]] = manipulate(json_object,sub_key[0], None)[sub_key[0]]
+            return return_object
         
     if key == None:
        return json_object
