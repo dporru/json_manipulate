@@ -2,12 +2,15 @@
 import json, sys, argparse
 
 def manipulate(json_object, manipulate_string):
-   (key, rest) = get_key(manipulate_string)
+    (key, rest) = get_key(manipulate_string)
    
-   if type(key) == str:
-       return {key : json_object[key]}
+    if type(key) == str:
+        try:
+            return {key : json_object[key]}
+        except KeyError:
+            raise KeyNotFound(key)
    
-   if key == None:
+    if key == None:
        return json_object
    
 def get_key(ms):
@@ -60,6 +63,12 @@ def get_args(argument_list):
     parser = argparse.ArgumentParser(description='Show and manipulate json strings.')
     parser.add_argument('-m', '--manipulate_string', type=str, default='', help='A maniputation string, see description.')
     return parser.parse_args(argument_list[1:])
+
+class KeyNotFound(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
 
 if __name__ == '__main__':
     json_object = json.load(sys.stdin)
