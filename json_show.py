@@ -83,12 +83,16 @@ def get_key(ms):
             ms = ms[1:-1]
             square_bracket_pos = -1
         
+        no_dot_before_brackets = (dot_pos == -1 or dot_pos > square_bracket_pos)
+        pipe_not_inside_parenthesis = (parenthesis_pos == -1 or pipe_pos < parenthesis_pos)
+        pipe_not_inside_brackets = (square_bracket_pos == -1 or pipe_pos < square_bracket_pos)
+        
         # return (key, rest) tuple
-        if square_bracket_pos != -1 and (dot_pos == -1 or dot_pos > square_bracket_pos):
+        if square_bracket_pos != -1 and no_dot_before_brackets:
             return (ms[:square_bracket_pos], get_key(ms[square_bracket_pos+1:-1]))
         
         # return list of (key, rest) tuples
-        if pipe_pos != -1 and (parenthesis_pos == -1 or pipe_pos < parenthesis_pos) and (square_bracket_pos == -1 or pipe_pos < square_bracket_pos):
+        if pipe_pos != -1 and pipe_not_inside_parenthesis and pipe_not_inside_brackets:
             return (map(get_key, get_piped_parts(ms)), None)
         
         # return (key, rest) tuple
