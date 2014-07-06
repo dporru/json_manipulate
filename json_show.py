@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import json, sys, argparse
 
-def manipulate(json_object, key, rest):   
+def manipulate(json_object, key, rest):
     if type(key) == str:
         try:
             if rest != None:
@@ -21,7 +21,7 @@ def manipulate(json_object, key, rest):
         else:
             return_object = {}
             for sub_key in key:
-                return_object[sub_key[0]] = manipulate(json_object,sub_key[0], None)[sub_key[0]]
+                return_object[sub_key[0]] = manipulate(json_object, sub_key[0], sub_key[1])[sub_key[0]]
             return return_object
         
     if key == None:
