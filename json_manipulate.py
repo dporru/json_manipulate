@@ -147,7 +147,11 @@ if __name__ == '__main__':
     (key, rest) = get_key(args.manipulate_string)
     
     # create the manipulated json object
-    json_object = manipulate(json_object, key, rest)
+    try:
+        json_object = manipulate(json_object, key, rest)
+    except KeyNotFound as e:
+        print "Error: '" + e.value + "' was not found!"
+        exit(1)
     
     # print the manipulated json object to screen
     print json.dumps(json_object, indent=4, separators=(',', ': '))
