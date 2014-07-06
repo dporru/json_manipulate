@@ -138,8 +138,12 @@ class KeyNotFound(Exception):
 
 if __name__ == '__main__':
     # load the json_object from the stdin
-    json_object = json.load(sys.stdin)
-    
+    try:
+        json_object = json.load(sys.stdin)
+    except ValueError:
+        print "Error: malformed JSON-string!"
+        exit(2)
+
     # parse command line arguments
     args = get_args(sys.argv)
     
