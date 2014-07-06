@@ -48,11 +48,11 @@ def get_key(ms):
             square_bracket_pos = -1
         
         # return (key, rest) tuple
-        if square_bracket_pos != -1:
+        if square_bracket_pos != -1 and (dot_pos == -1 or dot_pos > square_bracket_pos):
             return (ms[:square_bracket_pos], get_key(ms[square_bracket_pos+1:-1]))
         
         # return list of (key, rest) tuples
-        if pipe_pos != -1 and (parenthesis_pos == -1 or pipe_pos < parenthesis_pos):
+        if pipe_pos != -1 and (parenthesis_pos == -1 or pipe_pos < parenthesis_pos) and (square_bracket_pos == -1 or pipe_pos < square_bracket_pos):
             return (map(get_key, get_piped_parts(ms)), None)
         
         # return (key, rest) tuple
@@ -66,9 +66,10 @@ def get_piped_parts(ms):
         return []
         
     pipe_pos = ms.find('|')
+    square_bracket_pos = ms.find('[')
     parenthesis_pos = ms.find('(')
     
-    if pipe_pos == -1 or (parenthesis_pos != -1 and pipe_pos > parenthesis_pos):
+    if pipe_pos == -1 or (parenthesis_pos != -1 and pipe_pos > parenthesis_pos) or (square_bracket_pos != -1 and pipe_pos > square_bracket_pos):
         return [ms]
     
     return [ms[:pipe_pos]] + get_piped_parts(ms[pipe_pos+1:])
