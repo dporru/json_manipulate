@@ -74,12 +74,12 @@ def get_key(ms):
     
         # remove starting and trailing parenthesis
         if parenthesis_pos == 0:
-            ms = ms[1:-1]
+            ms = remove_starting_and_trailing_character(ms, ('(',')'))
             parenthesis_pos = -1
             
         # remove starting and trailing square_brackets
         if square_bracket_pos == 0:
-            ms = ms[1:-1]
+            ms = remove_starting_and_trailing_character(ms, ('[',']'))
             square_bracket_pos = -1
         
         no_dot_before_brackets = (dot_pos == -1 or dot_pos > square_bracket_pos)
@@ -88,7 +88,8 @@ def get_key(ms):
         
         # return (key, rest) tuple
         if square_bracket_pos != -1 and no_dot_before_brackets:
-            return (ms[:square_bracket_pos], get_key(ms[square_bracket_pos+1:-1]))
+            rest_string = remove_starting_and_trailing_character(ms[square_bracket_pos:], ('[',']'))
+            return (ms[:square_bracket_pos], get_key(rest_string))
         
         # return list of (key, rest) tuples
         if pipe_pos != -1 and pipe_not_inside_parenthesis and pipe_not_inside_brackets:
@@ -99,6 +100,17 @@ def get_key(ms):
             return (ms[:dot_pos], get_key(ms[dot_pos+1:]))
         
         return (ms, None)
+
+def remove_starting_and_trailing_character(value, character_couple):
+    
+    if value[-1] != character_couple[1] and value[0] != character_couple[0]:
+        return value
+    elif value[-1] != character_couple[1]:
+        raise ParseError("missing trailing '" + character_couple[1] + "'")
+    elif value[0] != character_couple[0]:
+        raise ParseError("missing opening '" + character_couple[0] + "'")
+    else:
+        return value[1:-1]
 
 def get_piped_parts(ms):
     """
@@ -135,6 +147,12 @@ class KeyNotFound(Exception):
         self.value = value
     def __str__(self):
         return repr(self.value)
+    
+class ParseError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
 
 if __name__ == '__main__':
     # load the json_object from the stdin
@@ -148,8 +166,12 @@ if __name__ == '__main__':
     args = get_args(sys.argv)
     
     # create json manipulation object based on command line arguments
-    (key, rest) = get_key(args.manipulate_string)
-    
+    try:
+        (key, rest) = get_key(args.manipulate_string)
+    except ParseError as e:
+        print "Parse error: " + e.value + "!"
+        exit(3)
+        
     # create the manipulated json object
     try:
         json_object = manipulate(json_object, key, rest)

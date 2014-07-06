@@ -127,6 +127,16 @@ class TestJsonShow(unittest.TestCase):
         result = json_manipulate.get_key(manipulate_string)
         
         self.assertEqual(result, ('result', ([('addresses', None), ('streets', None)], None)))
+        
+    def test_get_key_keys_in_parenthesis_missing_trailing_parenthesis(self):
+        manipulate_string = 'result.(addresses|streets'
+        
+        self.assertRaises(json_manipulate.ParseError, json_manipulate.get_key, manipulate_string)
+        
+    def test_get_key_keys_in_brackets_missing_trailing_bracket(self):
+        manipulate_string = 'result[addresses|streets'
+        
+        self.assertRaises(json_manipulate.ParseError, json_manipulate.get_key, manipulate_string)
     
     def test_get_key_keys_separated_by_pipe_in_square_brackets(self):
         manipulate_string = 'result[addresses|streets]'
@@ -183,6 +193,34 @@ class TestJsonShow(unittest.TestCase):
         result = json_manipulate.get_piped_parts(manipulate_string)
         
         self.assertEqual(result, ['person.addresses[street|city]'])
+
+    def test_remove_starting_and_trailing_character(self):
+        value = '(value)'
+        character_couple = ('(',')')
         
+        result = json_manipulate.remove_starting_and_trailing_character(value, character_couple)
+        
+        self.assertEqual(result, 'value')
+        
+    def test_remove_starting_and_trailing_character_characters_missing(self):
+        value = 'value'
+        character_couple = ('(',')')
+        
+        result = json_manipulate.remove_starting_and_trailing_character(value, character_couple)
+        
+        self.assertEqual(result, 'value')
+    
+    def test_remove_starting_and_trailing_character_missing_starting_character(self):
+        value = 'value)'
+        character_couple = ('(',')')
+        
+        self.assertRaises(json_manipulate.ParseError, json_manipulate.remove_starting_and_trailing_character, value, character_couple)
+        
+    def test_remove_starting_and_trailing_character_missing_trailing_character(self):
+        value = '(value'
+        character_couple = ('(',')')
+        
+        self.assertRaises(json_manipulate.ParseError, json_manipulate.remove_starting_and_trailing_character, value, character_couple)
+    
 if __name__ == '__main__':
     unittest.main()
