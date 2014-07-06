@@ -2,7 +2,7 @@
 
 Manipulate JSON strings from the command line.
 
-# Usage
+## Usage
 
 Call the json_manipulate.py with a json-string as standard input and a manipulation string. For example:
 
@@ -16,7 +16,7 @@ $ echo $json_string | json_manipulate.py -m 'first_name'
 
 If you ommit the -m flag, you just get the json-string nicely readable on your screen.
 
-# More examples
+## More examples
 
 Select subkeys:
 
