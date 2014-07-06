@@ -74,7 +74,7 @@ class TestJsonShow(unittest.TestCase):
         result = json_manipulate.manipulate(json_object, key, rest)
         
         self.assertEqual(result, {"object1" : "value1", "object2": {"subobject1" : "subvalue1"}})
-        
+    
     def test_manipulate_multiple_keys_in_list(self):
         key = [('name1', None), ('name2', None)]
         rest = None
@@ -83,6 +83,15 @@ class TestJsonShow(unittest.TestCase):
         result = json_manipulate.manipulate(json_object, key, rest)
         
         self.assertEqual(result, [{"name1" : "value1", "name2": "value1"}, {"name1" : "value2", "name2": "value2"}, {"name1" : "value3", "name2": "value3"}])
+        
+    def test_manipulate_single_key_in_list(self):
+        key = 'name1'
+        rest = None
+        json_object = [{"name1" : "value1", "name2": "value1", "name3": "value1"}, {"name1" : "value2", "name2": "value2", "name3": "value2"}, {"name1" : "value3", "name2": "value3", "name3": "value3"}]
+        
+        result = json_manipulate.manipulate(json_object, key, rest)
+        
+        self.assertEqual(result, [{"name1" : "value1"}, {"name1" : "value2"}, {"name1" : "value3"}])
         
     def test_get_key_empty_string(self):
         manipulate_string = ''

@@ -21,6 +21,13 @@ def manipulate(json_object, key, rest):
         Manipulated dictonary or list
     """
     
+    # json_object is list: select key from list of dictionaries
+    if type(json_object) == list:
+        return_list = []
+        for item in json_object:
+            return_list.append(manipulate(item, key, rest))
+        return return_list
+    
     # key is string: select key from dictionary
     if type(key) == str:
         try:
@@ -32,20 +39,12 @@ def manipulate(json_object, key, rest):
         except KeyError:
             raise KeyNotFound(key)
     
-    # key is list: select keys from dictionary or keys from list of dictonaries
+    # key is list: select keys from dictionary
     if type(key) == list:
-        # select keys from list of dictionaries
-        if type(json_object) == list:
-            return_list = []
-            for item in json_object:
-                return_list.append(manipulate(item, key, rest))
-            return return_list
-        # select keys from dictionary
-        else:
-            return_object = {}
-            for sub_key in key:
-                return_object[sub_key[0]] = manipulate(json_object, sub_key[0], sub_key[1])[sub_key[0]]
-            return return_object
+        return_object = {}
+        for sub_key in key:
+            return_object[sub_key[0]] = manipulate(json_object, sub_key[0], sub_key[1])[sub_key[0]]
+        return return_object
         
     if key == None:
        return json_object
