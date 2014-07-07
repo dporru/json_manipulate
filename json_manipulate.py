@@ -10,7 +10,7 @@ def manipulate(json_object, key, rest):
         key:
             1) string            -> select only given key from dictionary
             2) list of strings   -> select only given keys from dictionary
-                                    or select only givens keys from the dictionaries
+                                    or select only given keys from the dictionaries
                                     in the given list
             3) None              -> return given dictionary or list untouched
         rest:
