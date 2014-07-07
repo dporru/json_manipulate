@@ -83,12 +83,14 @@ def get_key(ms):
             ms = remove_starting_and_trailing_character(ms, ('[',']'))
             square_bracket_pos = -1
         
+        # check positions of brackets, parethesis and pipes
         no_dot_before_brackets = (dot_pos == -1 or dot_pos > square_bracket_pos)
         pipe_not_inside_parenthesis = (parenthesis_pos == -1 or pipe_pos < parenthesis_pos)
         pipe_not_inside_brackets = (square_bracket_pos == -1 or pipe_pos < square_bracket_pos or pipe_pos > square_bracket_end_pos)
+        pipe_inside_brackets = square_bracket_pos != -1 and (not pipe_pos > square_bracket_end_pos or square_bracket_end_pos == -1)
         
         # return (key, rest) tuple
-        if square_bracket_pos != -1 and no_dot_before_brackets and (not pipe_pos > square_bracket_end_pos or square_bracket_end_pos == -1):
+        if no_dot_before_brackets and pipe_inside_brackets:
             rest_string = remove_starting_and_trailing_character(ms[square_bracket_pos:], ('[',']'))
             return (ms[:square_bracket_pos], get_key(rest_string))
         
