@@ -158,6 +158,13 @@ class TestJsonShow(unittest.TestCase):
         result = json_manipulate.get_key(manipulate_string)
         
         self.assertEqual(result, ('response', ('result', ([('addresses', None), ('streets', None)], None))))
+        
+    def test_get_key_combine_parenthesis_and_brackets(self):
+        manipulate_string = 'response.result.(persons[first_name]|recepies)'
+        
+        result = json_manipulate.get_key(manipulate_string)
+        self.assertEqual(result, ('response', ('result', ([('persons', ('first_name', None)), ('recepies', None)], None))))
+        
 
     def test_get_piped_parts_empty_string(self):
         manipulate_string = ''
@@ -193,6 +200,13 @@ class TestJsonShow(unittest.TestCase):
         result = json_manipulate.get_piped_parts(manipulate_string)
         
         self.assertEqual(result, ['person.addresses[street|city]'])
+        
+    def test_get_piped_key_after_square_brackets(self):
+        manipulate_string = 'addresses[street]|city'
+        
+        result = json_manipulate.get_piped_parts(manipulate_string)
+        
+        self.assertEqual(result, ['addresses[street]', 'city'])
 
     def test_remove_starting_and_trailing_character(self):
         value = '(value)'
