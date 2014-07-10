@@ -23,20 +23,17 @@ def manipulate(json_object, key, rest):
     
     # json_object is list: select key from list of dictionaries
     if type(json_object) == list:
-        return_list = []
-        for item in json_object:
-            return_list.append(manipulate(item, key, rest))
-        return return_list
+        return [manipulate(item, key, rest) for item in json_object]
     
     # key is string: select key from dictionary
     if type(key) == str:
-        try:
-            if rest != None:
+        if key in json_object:
+            if not rest is None:
                 rest_object = manipulate(json_object[key], rest[0], rest[1])
             else:
                 rest_object = json_object[key]
             return {key : rest_object}
-        except KeyError:
+        else:
             raise KeyNotFound(key)
     
     # key is list: select keys from dictionary
