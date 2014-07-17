@@ -1,10 +1,8 @@
 #!/usr/bin/python
-import sys
-sys.path.append('../')
 from json_manipulate import json_manipulate
-import unittest
+from unittest import TestCase
 
-class TestJsonShow(unittest.TestCase):
+class TestJsonShow(TestCase):
 
     def setUp(self):
         pass
@@ -235,6 +233,3 @@ class TestJsonShow(unittest.TestCase):
         character_couple = ('(',')')
         
         self.assertRaises(json_manipulate.ParseError, json_manipulate.remove_starting_and_trailing_character, value, character_couple)
-    
-if __name__ == '__main__':
-    unittest.main()

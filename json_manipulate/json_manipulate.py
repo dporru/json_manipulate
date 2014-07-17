@@ -157,7 +157,7 @@ class ParseError(Exception):
     def __str__(self):
         return repr(self.value)
 
-if __name__ == '__main__':
+def main():
     # load the json_object from the stdin
     try:
         json_object = json.load(sys.stdin)
